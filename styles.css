@@ -167,7 +167,7 @@ label{display:block; font-size:.9rem; font-weight:600; color:#374151; margin-bot
   }
   
   /* Input invisible que captura el click/drag */
-  .hidden-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .hidden-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; display: none;}
   
   /* Botón de analizar (deja igual si ya lo tienes) */
   .actions { display: flex; align-items: center; justify-content: center; margin-top: 28px; }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Subir Radiografía</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-wrap">
+    <h1 class="hero-title">Bienvenido, Doctor</h1>
+    <p class="hero-sub">Sube una radiografía para análisis de cáncer</p>
+
+    <section class="panel">
+      <div class="drop" id="drop">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        <h3 class="title">Arrastra o haz clic para subir radiografía</h3>
+        <p class="hint">Formatos: JPG, PNG, máximo 5MB</p>
+        
+      </div>
+      <input id="file" class="hidden-input" type="file" accept=".jpg,.jpeg,.png" />
+      <div id="preview" class="preview" aria-live="polite"></div>
+    </section>
+
+    <div class="actions">
+      <button id="analyzeBtn" class="primary-btn" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        Analizar Imagen
+      </button>
+    </div>
+  </div>
+  <script src ="js/config.js"></script>
+  <script src="js/image-drop.js"></script>
+</body>
+</html>
