@@ -109,44 +109,147 @@ async function sendToApi(file){
 }
 analyzeBtn.addEventListener('click', async function(){
     if (analyzeBtn.disabled) return;
+
     const btnText = analyzeBtn.innerHTML;
     analyzeBtn.innerHTML = '<span style="font-weight:800">Analizando…</span>';
     analyzeBtn.style.filter = 'brightness(.95)';
 
-    // post to the api with input file
-    // receive and show result + message according to the result
+    try {
+        const res = await sendToApi(currentFile);
+        console.log('API response:', res);
 
-    const res = await sendToApi(currentFile);
+        const code = typeof res.result === 'number' ? res.result : parseInt(res.result, 10);
+        const confidence = res.confidence != null
+            ? (res.confidence * 100).toFixed(1) + '%'
+            : 'N/A';
 
-    console.log('API response:', res);
-    
-    const popup = document.createElement('div');
-    popup.innerHTML = `
-        <strong>Resultado:</strong> ${res.label} <br>
-        <small>Confianza: ${(res.confidence * 100).toFixed(1)}%</small>
-    `;
-    // css temporal para el popup
-    // pls quitar y asignarle estilo con clases externas
-    Object.assign(popup.style, {
-        position: 'fixed',
-        top: '20px',
-        right: '20px',
-        background: '#fff',
-        padding: '15px 20px',
-        border: '2px solid #4caf50',
-        borderRadius: '8px',
-        boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
-        zIndex: 1000,
-        fontFamily: 'Arial, sans-serif',
-        color: '#333',
-        textAlign: 'center'
-    });
-    popup.addEventListener('click', () => popup.remove());
+        let titulo = '';
+        let mensaje = '';
 
-    document.body.appendChild(popup);
+        //        CASOS DEL MODELO
+        // ============================
 
-    setTimeout(function(){
-        analyzeBtn.innerHTML = btnText;
-        analyzeBtn.style.filter = '';
+        if (code === 0) {
+            titulo = 'Resultado: Normal';
+            mensaje = `
+                <strong>Situación:</strong><br>
+                La mamografía no mostró hallazgos sospechosos: no hay masas, microcalcificaciones significativas,
+                asimetrías nuevas ni alteraciones que sugieran malignidad.<br><br>
+
+                <strong>Recomendaciones sugeridas:</strong><br>
+                • Continuar con el cribado (screening) habitual según la guía local (cada 1-2 años según normativa).<br>
+                • Mantener autoexamen mamario consciente y vigilar cambios nuevos (nódulo, retracción, secreción, etc).<br>
+                • Evaluar factores de riesgo personales y familiares; considerar estudios adicionales si hay riesgo elevado.<br>
+                • Mantener hábitos saludables: ejercicio, alimentación equilibrada, peso adecuado, limitar alcohol.<br><br>
+
+                <strong>Precauciones:</strong><br>
+                • “Normal” no significa riesgo cero; la mamografía no tiene 100% de sensibilidad.<br>
+                • Si aparecen síntomas nuevos, consultar antes del próximo screening.
+            `;
+        }
+
+        else if (code === 1) {
+            titulo = 'Resultado: Benigno';
+            mensaje = `
+                <strong>Situación:</strong><br>
+                Se encontró un hallazgo evaluado como de bajo riesgo o claramente benigno (por ejemplo, quiste simple,
+                calcificación vascular, fibroadenoma conocido estable, etc.).<br><br>
+
+                <strong>Recomendaciones sugeridas:</strong><br>
+                • Mantener seguimiento según indique el radiólogo (control cada 6–12 meses o siguiente screening).<br>
+                • Si es “probablemente benigno” (BIRADS 2 o 3), confirmar intervalos de vigilancia sugeridos.<br>
+                • Registrar el hallazgo en el historial mamario para referencia futura.<br>
+                • Observar cambios en tamaño, forma o síntomas asociados.<br>
+                • Continuar con screening general y hábitos saludables.<br><br>
+
+                <strong>Precauciones:</strong><br>
+                • Si el hallazgo cambia (crece, se vuelve doloroso, secreción, etc.), acudir inmediatamente.<br>
+                • Asegurarse de que quede claro el plan de seguimiento indicado por el radiólogo.
+            `;
+        }
+
+        else if (code === 2) {
+            titulo = 'Resultado: Maligno o Altamente Sospechoso';
+            mensaje = `
+                <strong>Situación:</strong><br>
+                El estudio muestra hallazgos que sugieren malignidad (masa irregular, microcalcificaciones agrupadas,
+                densidad sospechosa) o fue categorizado como altamente sospechoso (equivalente a BIRADS 5).<br><br>
+
+                <strong>Recomendaciones sugeridas:</strong><br>
+                • Derivar de inmediato a un equipo especializado en mama para biopsia o diagnóstico definitivo.<br>
+                • Realizar estudios complementarios (ecografía, resonancia, tomografía, analíticas según indicación).<br>
+                • Discusión multidisciplinaria del caso para definir tratamiento (cirugía, quimio, radioterapia, etc.).<br>
+                • Evaluar factores adicionales de riesgo y planificar seguimiento a largo plazo.<br>
+                • Acceso a apoyo psicológico y acompañamiento durante el proceso diagnóstico y terapéutico.<br><br>
+
+                <strong>Precauciones:</strong><br>
+                • No demorar la evaluación: el diagnóstico temprano mejora el pronóstico.<br>
+                • Confirmar el hallazgo en un centro experto en patología mamaria.<br>
+                • Solicitar información clara sobre opciones de tratamiento y pronóstico.
+            `;
+        }
+
+        else {
+            titulo = 'Resultado Desconocido';
+            mensaje = 'El modelo devolvió un código no esperado: ' + res.result;
+        }
+
+        //         FINAL
+        // ============================
+
+        const popup = document.createElement('div');
+        popup.innerHTML = `
+            <strong>${titulo}</strong><br><br>
+            <span style="display:block; text-align:left; font-size:0.90rem;">${mensaje}</span><br>
+            <small><strong>Confianza del modelo:</strong> ${confidence}</small>
+        `;
+
+        Object.assign(popup.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            background: '#ffffff',
+            padding: '20px',
+            border: '2px solid #4caf50',
+            borderRadius: '12px',
+            boxShadow: '0 4px 18px rgba(0,0,0,0.25)',
+            zIndex: 2000,
+            maxWidth: '350px',
+            fontFamily: 'Arial, sans-serif',
+            lineHeight: '1.45',
+            color: '#111'
+        });
+
+        popup.addEventListener('click', () => popup.remove());
+        document.body.appendChild(popup);
+
+        setTimeout(() => popup.remove(), 12000);
+
+    } catch (error) {
+        console.error('Error al analizar:', error);
+        const popup = document.createElement('div');
+        popup.innerHTML = `
+            <strong>Error al analizar la imagen</strong><br>
+            <span>Intenta nuevamente.</span>
+        `;
+        Object.assign(popup.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            background: '#ffecec',
+            padding: '15px 20px',
+            border: '2px solid #e11d48',
+            borderRadius: '8px',
+            boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
+            zIndex: 2000,
+            color: '#333'
+        });
+        popup.addEventListener('click', () => popup.remove());
+        document.body.appendChild(popup);
+    } finally {
+        setTimeout(function(){
+            analyzeBtn.innerHTML = btnText;
+            analyzeBtn.style.filter = '';
         }, 900);
+    }
 });
