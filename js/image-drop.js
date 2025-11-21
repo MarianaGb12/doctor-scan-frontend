@@ -170,20 +170,22 @@ function getResultData(code){
       icon: '⚠',
       className: 'malignant',
       message: `
-        <strong>Situación:</strong><br>
-        La mamografía no mostró hallazgos sospechosos: no hay masas, microcalcificaciones significativas,
-        asimetrías nuevas ni alteraciones que sugieran malignidad.<br><br>
+                <strong>Situación:</strong><br>
+                El estudio muestra hallazgos que sugieren malignidad (masa irregular, microcalcificaciones agrupadas,
+                densidad sospechosa) o fue categorizado como altamente sospechoso (equivalente a BIRADS 5).<br><br>
 
-        <strong>Recomendaciones sugeridas:</strong><br>
-        • Continuar con el cribado (screening) habitual según la guía local (cada 1-2 años según normativa).<br>
-        • Mantener autoexamen mamario consciente y vigilar cambios nuevos (nódulo, retracción, secreción, etc).<br>
-        • Evaluar factores de riesgo personales y familiares; considerar estudios adicionales si hay riesgo elevado.<br>
-        • Mantener hábitos saludables: ejercicio, alimentación equilibrada, peso adecuado, limitar alcohol.<br><br>
+                <strong>Recomendaciones sugeridas:</strong><br>
+                • Derivar de inmediato a un equipo especializado en mama para biopsia o diagnóstico definitivo.<br>
+                • Realizar estudios complementarios (ecografía, resonancia, tomografía, analíticas según indicación).<br>
+                • Discusión multidisciplinaria del caso para definir tratamiento (cirugía, quimio, radioterapia, etc.).<br>
+                • Evaluar factores adicionales de riesgo y planificar seguimiento a largo plazo.<br>
+                • Acceso a apoyo psicológico y acompañamiento durante el proceso diagnóstico y terapéutico.<br><br>
 
-        <strong>Precauciones:</strong><br>
-        • “Normal” no significa riesgo cero; la mamografía no tiene 100% de sensibilidad.<br>
-        • Si aparecen síntomas nuevos, consultar antes del próximo screening.
-      `
+                <strong>Precauciones:</strong><br>
+                • No demorar la evaluación: el diagnóstico temprano mejora el pronóstico.<br>
+                • Confirmar el hallazgo en un centro experto en patología mamaria.<br>
+                • Solicitar información clara sobre opciones de tratamiento y pronóstico.
+            `
     }
   };
 
