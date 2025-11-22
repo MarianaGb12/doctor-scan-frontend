@@ -142,6 +142,9 @@ function getResultData(code){
             <strong>Precauciones:</strong><br>
             • “Normal” no significa riesgo cero; la mamografía no tiene 100% de sensibilidad.<br>
             • Si aparecen síntomas nuevos, consultar antes del próximo screening.
+
+            <strong>Nota:</strong><br>
+            • Esta herramienta de apoyo al diagnóstico utiliza Deep Learning y no tiene 100% de sensibilidad.
         `
     },
     0: {
@@ -163,6 +166,9 @@ function getResultData(code){
         <strong>Precauciones:</strong><br>
         • Si el hallazgo cambia (crece, se vuelve doloroso, secreción, etc.), acudir inmediatamente.<br>
         • Asegurarse de que quede claro el plan de seguimiento indicado por el radiólogo.
+
+        <strong>Nota:</strong><br>
+        • Esta herramienta de apoyo al diagnóstico utiliza Deep Learning y no tiene 100% de sensibilidad.
       `
     },
     1: {
@@ -185,6 +191,9 @@ function getResultData(code){
                 • No demorar la evaluación: el diagnóstico temprano mejora el pronóstico.<br>
                 • Confirmar el hallazgo en un centro experto en patología mamaria.<br>
                 • Solicitar información clara sobre opciones de tratamiento y pronóstico.
+
+                <strong>Nota:</strong><br>
+                • Esta herramienta de apoyo al diagnóstico utiliza Deep Learning y no tiene 100% de sensibilidad.
             `
     }
   };
