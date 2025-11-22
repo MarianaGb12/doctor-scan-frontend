@@ -4,7 +4,7 @@ function bytesMB(b){ return (b/1024/1024).toFixed(2); }
 function el(t, attrs){ return Object.assign(document.createElement(t), attrs || {}); } 
 
 let currentFile;
-const API_URL = "http://localhost:8000/predict";
+const API_URL = "http://backend:8000/predict";
 
 // DOM
 const drop = document.getElementById('drop');
